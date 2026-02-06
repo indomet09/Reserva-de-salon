@@ -1,0 +1,25 @@
+# System Files
+.DS_Store
+Thumbs.db
+
+# Database
+*.db
+*.sqlite
+database/*.db
+database/*.sqlite
+
+# Documentation Exclusions
+OLD/
+docs/NORTIC-A6-2016-1_copy.pdf
+
+# User Uploads (Keep directory, ignore content)
+public/uploads/*
+!public/uploads/.gitkeep
+!public/uploads/index.html
+
+# Dependencies (if any in future)
+vendor/
+node_modules/
+
+# Logs
+*.log

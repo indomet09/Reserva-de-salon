@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120">
+  <defs>
+    <style>
+      .text { font-family: 'Inter', 'Segoe UI', sans-serif; font-weight: 700; font-size: 48px; }
+    </style>
+  </defs>
+  
+  <!-- Flame/Drop Symbol - White version for dark mode -->
+  <g transform="translate(10, 10)">
+    <!-- Main white crescent -->
+    <path d="M45 100 A50 50 0 1 1 45 0 A35 35 0 1 0 45 100" fill="#f1f5f9"/>
+    
+    <!-- White drop top -->
+    <path d="M55 8 Q65 25 55 40 Q45 25 55 8" fill="#94a3b8"/>
+    
+    <!-- White circle bottom -->
+    <circle cx="55" cy="85" r="12" fill="#94a3b8"/>
+    
+    <!-- Three horizontal white lines -->
+    <rect x="20" y="45" width="45" height="6" rx="3" fill="#94a3b8"/>
+    <rect x="20" y="57" width="45" height="6" rx="3" fill="#94a3b8"/>
+    <rect x="20" y="69" width="45" height="6" rx="3" fill="#94a3b8"/>
+  </g>
+  
+  <!-- Vertical separator -->
+  <rect x="130" y="20" width="3" height="80" fill="#f1f5f9"/>
+  
+  <!-- INDOMET Text -->
+  <text x="155" y="75" class="text" fill="#f1f5f9">INDOMET</text>
+</svg>
