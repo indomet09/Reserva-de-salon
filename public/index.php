@@ -17,14 +17,30 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // ============================================
+// Detección del Base Path (CRÍTICO para Subcarpetas)
+// ============================================
+$scriptName = $_SERVER['SCRIPT_NAME'];
+$basePath = dirname($scriptName);
+$requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+// Normalizar basePath
+if ($basePath === '.' || $basePath === '/' || $basePath === '\\') {
+    $basePath = '';
+} else {
+    // Asegurar que no tenga slash al final
+    $basePath = rtrim($basePath, '/\\');
+}
+
+// ============================================
 // Verificar si el sistema está instalado
 // ============================================
 $lockFile = __DIR__ . '/../config/.installed';
-$requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Si no está instalado y no estamos en install.php, redirigir
 if (!file_exists($lockFile) && strpos($requestUri, 'install.php') === false) {
-    header('Location: /install.php');
+    // Usar basePath manual porque url() no está disponible aún
+    $installUrl = $basePath . '/install.php';
+    header("Location: $installUrl");
     exit;
 }
 
@@ -42,17 +58,9 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 
-// Extraer la ruta limpia de la URL
-$requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-// Detectar el base path automáticamente (para XAMPP/LAMPP en subcarpetas)
-$scriptName = $_SERVER['SCRIPT_NAME'];
-$basePath = dirname($scriptName);
-if ($basePath !== '/' && $basePath !== '\\') {
-    // Quitar el base path de la URI
-    if (strpos($requestUri, $basePath) === 0) {
-        $requestUri = substr($requestUri, strlen($basePath));
-    }
+// Limpiar la URI para el router (quitar base path)
+if ($basePath !== '' && strpos($requestUri, $basePath) === 0) {
+    $requestUri = substr($requestUri, strlen($basePath));
 }
 
 $route = trim($requestUri, '/') ?: 'home';
@@ -98,7 +106,7 @@ try {
         case '':
             // Si ya está logueado, ir a reservas
             if (AuthController::isAuthenticated()) {
-                header('Location: reservations');
+                header('Location: ' . url('reservations'));
                 exit;
             }
             include __DIR__ . '/../templates/login.php';
@@ -164,7 +172,7 @@ try {
                 $controller = new ReservationController();
                 $controller->create();
             } else {
-                header('Location: reservations/new');
+                header('Location: ' . url('reservations/new'));
                 exit;
             }
             break;
@@ -176,7 +184,7 @@ try {
             AuthController::requireAuth();
             // Solo admin y manager pueden exportar
             if (!AuthController::canExport()) {
-                header('Location: reservations?error=' . urlencode('No tiene permisos para exportar'));
+                header('Location: ' . url('reservations?error=' . urlencode('No tiene permisos para exportar')));
                 exit;
             }
             $controller = new ReservationController();
@@ -187,15 +195,15 @@ try {
             // Exporta a la carpeta Documentos/reservas/
             AuthController::requireAuth();
             if (!AuthController::canExport()) {
-                header('Location: reservations?error=' . urlencode('No tiene permisos para exportar'));
+                header('Location: ' . url('reservations?error=' . urlencode('No tiene permisos para exportar')));
                 exit;
             }
             require_once __DIR__ . '/../scripts/monthly_export.php';
             $result = runMonthlyExport(false);
             if ($result['success']) {
-                header('Location: reservations?success=' . urlencode($result['message']));
+                header('Location: ' . url('reservations?success=' . urlencode($result['message'])));
             } else {
-                header('Location: reservations?error=' . urlencode($result['message']));
+                header('Location: ' . url('reservations?error=' . urlencode($result['message'])));
             }
             exit;
             break;
@@ -206,7 +214,7 @@ try {
         case 'users':
             AuthController::requireAuth();
             if (!AuthController::isAdmin()) {
-                header('Location: reservations?error=' . urlencode('Acceso denegado'));
+                header('Location: ' . url('reservations?error=' . urlencode('Acceso denegado')));
                 exit;
             }
             $userModel = new User();
@@ -217,7 +225,7 @@ try {
         case 'users/new':
             AuthController::requireAuth();
             if (!AuthController::isAdmin()) {
-                header('Location: reservations?error=' . urlencode('Acceso denegado'));
+                header('Location: ' . url('reservations?error=' . urlencode('Acceso denegado')));
                 exit;
             }
             $editMode = false;
@@ -237,13 +245,13 @@ try {
                 $reservation = $reservationModel->findById($id);
 
                 if (!$reservation) {
-                    header('Location: /reservations?error=' . urlencode('Reserva no encontrada'));
+                    header('Location: ' . url('/reservations?error=' . urlencode('Reserva no encontrada')));
                     exit;
                 }
 
                 // Verificar permisos
                 if (!AuthController::canModifyReservation($reservation)) {
-                    header('Location: /reservations?error=' . urlencode('No tiene permisos'));
+                    header('Location: ' . url('/reservations?error=' . urlencode('No tiene permisos')));
                     exit;
                 }
 
@@ -269,7 +277,7 @@ try {
             elseif (preg_match('/^users\/edit\/(\d+)$/', $route, $matches)) {
                 AuthController::requireAuth();
                 if (!AuthController::isAdmin()) {
-                    header('Location: /reservations?error=' . urlencode('Acceso denegado'));
+                    header('Location: ' . url('/reservations?error=' . urlencode('Acceso denegado')));
                     exit;
                 }
                 $id = (int) $matches[1];
@@ -277,7 +285,7 @@ try {
                 $user = $userModel->findById($id);
 
                 if (!$user) {
-                    header('Location: /users?error=' . urlencode('Usuario no encontrado'));
+                    header('Location: ' . url('/users?error=' . urlencode('Usuario no encontrado')));
                     exit;
                 }
 
@@ -296,7 +304,7 @@ try {
             elseif (preg_match('/^users\/delete\/(\d+)$/', $route, $matches)) {
                 AuthController::requireAuth();
                 if (!AuthController::isAdmin()) {
-                    header('Location: /reservations?error=' . urlencode('Acceso denegado'));
+                    header('Location: ' . url('/reservations?error=' . urlencode('Acceso denegado')));
                     exit;
                 }
                 $id = (int) $matches[1];
@@ -307,7 +315,7 @@ try {
             elseif ($route === 'users/create') {
                 AuthController::requireAuth();
                 if (!AuthController::isAdmin()) {
-                    header('Location: /reservations?error=' . urlencode('Acceso denegado'));
+                    header('Location: ' . url('/reservations?error=' . urlencode('Acceso denegado')));
                     exit;
                 }
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -317,7 +325,7 @@ try {
                     $auth = new AuthController();
                     $auth->createUser();
                 } else {
-                    header('Location: /users/new');
+                    header('Location: ' . url('/users/new'));
                     exit;
                 }
             }
@@ -335,7 +343,7 @@ try {
                 http_response_code(404);
                 echo '<h1>404 - Página no encontrada</h1>';
                 echo '<p>Ruta: ' . htmlspecialchars($route) . '</p>';
-                echo '<a href="/reservations">Volver a reservas</a>';
+                echo '<a href="' . url('reservations') . '">Volver a reservas</a>';
             }
             break;
     }

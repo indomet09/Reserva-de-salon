@@ -227,19 +227,19 @@ class ReservationController
 
     private function redirect(string $path): void
     {
-        header("Location: $path");
+        header("Location: " . url($path));
         exit;
     }
 
     private function redirectWithError(string $path, string $message): void
     {
-        header("Location: $path?error=" . urlencode($message));
+        header("Location: " . url($path) . "?error=" . urlencode($message));
         exit;
     }
 
     private function redirectWithSuccess(string $path, string $message): void
     {
-        header("Location: $path?success=" . urlencode($message));
+        header("Location: " . url($path) . "?success=" . urlencode($message));
         exit;
     }
 }
