@@ -16,9 +16,16 @@ $error = $_GET['error'] ?? null;
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="<?= asset('css/app.css') ?>">
     <link rel="icon" type="image/svg+xml"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>">
+    <script>
+        // Apply saved theme immediately
+        (function () {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
 </head>
 
 <body class="auth-page">
@@ -38,7 +45,7 @@ $error = $_GET['error'] ?? null;
             </div>
         <?php endif; ?>
 
-        <form action="register" method="POST" id="registerForm">
+        <form action="<?= url('register') ?>" method="POST" id="registerForm">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generateCsrfToken()) ?>">
 
             <div class="form-group">
@@ -67,11 +74,33 @@ $error = $_GET['error'] ?? null;
         </form>
 
         <div class="auth-footer">
-            <p>¿Ya tienes cuenta? <a href="./">Inicia sesión</a></p>
+            <p>¿Ya tienes cuenta? <a href="<?= url('/') ?>">Inicia sesión</a></p>
+            <div class="theme-toggle" style="justify-content: center; margin-top: 1rem;">
+                <label class="switch">
+                    <input type="checkbox" id="themeSwitch" onclick="toggleTheme()">
+                    <span class="switch-slider"></span>
+                </label>
+                <span style="font-size: 0.9rem; color: var(--text-muted); margin-left:8px;">🌓</span>
+            </div>
         </div>
     </div>
 
-    <script src="js/app.js"></script>
+    <script src="<?= asset('js/app.js') ?>"></script>
+    <script>
+        function toggleTheme() {
+            const themeSwitch = document.getElementById('themeSwitch');
+            const isDark = themeSwitch.checked;
+            const newTheme = isDark ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+        // Init theme switch state
+        (function () {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const themeSwitch = document.getElementById('themeSwitch');
+            if (themeSwitch) themeSwitch.checked = savedTheme === 'dark';
+        })();
+    </script>
 </body>
 
 </html>

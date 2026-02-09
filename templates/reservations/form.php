@@ -30,7 +30,7 @@ $comment = $editMode ? htmlspecialchars($reservation['comment']) : '';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="<?= asset('css/app.css') ?>">
     <link rel="icon" type="image/svg+xml"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>">
 </head>
@@ -52,7 +52,7 @@ $comment = $editMode ? htmlspecialchars($reservation['comment']) : '';
                         👤
                         <?= htmlspecialchars($_SESSION['email'] ?? $_SESSION['user_email'] ?? 'Usuario') ?>
                     </span>
-                    <a href="/logout" class="btn btn-secondary btn-sm">
+                    <a href="<?= url('logout') ?>" class="btn btn-secondary btn-sm">
                         🔒 Cerrar sesión
                     </a>
                 </nav>
@@ -78,7 +78,7 @@ $comment = $editMode ? htmlspecialchars($reservation['comment']) : '';
                 </div>
             <?php endif; ?>
 
-            <form action="/<?= $formAction ?>" method="POST" id="reservationForm">
+            <form action="<?= url($formAction) ?>" method="POST" id="reservationForm">
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generateCsrfToken()) ?>">
 
                 <div class="form-group">
@@ -135,7 +135,7 @@ $comment = $editMode ? htmlspecialchars($reservation['comment']) : '';
                 </div>
 
                 <div style="display: flex; gap: 1rem; justify-content: flex-end;">
-                    <a href="/reservations" class="btn btn-secondary">
+                    <a href="<?= url('reservations') ?>" class="btn btn-secondary">
                         ← Cancelar
                     </a>
                     <button type="submit" class="btn btn-primary">
@@ -146,7 +146,7 @@ $comment = $editMode ? htmlspecialchars($reservation['comment']) : '';
         </div>
     </main>
 
-    <script src="/js/app.js"></script>
+    <script src="<?= asset('js/app.js') ?>"></script>
     <script>
         // Client-side time validation
         document.getElementById('reservationForm').addEventListener('submit', function (e) {

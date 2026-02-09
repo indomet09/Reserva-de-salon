@@ -37,7 +37,8 @@ $currentRoleInfo = $roleLabels[$currentUserRole] ?? ['label' => $currentUserRole
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/app.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?= asset('css/app.css') ?>">
     <!-- GSAP Animation Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script>
@@ -54,7 +55,12 @@ $currentRoleInfo = $roleLabels[$currentUserRole] ?? ['label' => $currentUserRole
         <div class="container">
             <div class="header-content">
                 <div class="header-title">
-                    <img src="/assets/logo.png" alt="INDOMET" class="header-logo" id="siteLogo">
+                    <a href="<?= url('reservations') ?>" title="Ir al calendario">
+                        <img src="<?= asset(app_setting('app_logo', '/assets/logo.png')) ?>" alt="INDOMET"
+                            class="header-logo" id="siteLogo"
+                            data-logo-light="<?= asset(app_setting('app_logo', '/assets/logo.png')) ?>"
+                            data-logo-dark="<?= asset(app_setting('app_logo_dark') ?: app_setting('app_logo', '/assets/logo.png')) ?>">
+                    </a>
                 </div>
                 <nav class="header-nav">
                     <!-- Theme Switch -->
@@ -81,7 +87,7 @@ $currentRoleInfo = $roleLabels[$currentUserRole] ?? ['label' => $currentUserRole
                         </label>
                     </div>
 
-                    <a href="/reservations" class="btn btn-secondary btn-sm">
+                    <a href="<?= url('reservations') ?>" class="btn btn-secondary btn-sm">
                         <svg class="icon" viewBox="0 0 16 16" fill="currentColor">
                             <path
                                 d="M5 0a1 1 0 0 1 1 1v1h4V1a1 1 0 1 1 2 0v1h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h2V1a1 1 0 0 1 1-1zM2 6v8h12V6H2z" />
@@ -104,7 +110,7 @@ $currentRoleInfo = $roleLabels[$currentUserRole] ?? ['label' => $currentUserRole
                                 </div>
                             </div>
                             <div class="dropdown-actions">
-                                <a href="/logout" class="dropdown-btn logout">
+                                <a href="<?= url('logout') ?>" class="dropdown-btn logout">
                                     <svg class="icon" viewBox="0 0 16 16" fill="currentColor">
                                         <path
                                             d="M6.5 1a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM11 2.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0-.5.5v11a.5.5 0 0 0 .5.5h5a.5.5 0 0 0 .5-.5v-11zm-5-.5a1.5 1.5 0 0 0-1.5 1.5v11a1.5 1.5 0 0 0 1.5 1.5h5a1.5 1.5 0 0 0 1.5-1.5v-11a1.5 1.5 0 0 0-1.5-1.5h-5z" />
@@ -157,7 +163,7 @@ $currentRoleInfo = $roleLabels[$currentUserRole] ?? ['label' => $currentUserRole
                     Usuarios del Sistema
                 </h2>
                 <div class="action-buttons">
-                    <a href="/users/new" class="btn btn-primary">
+                    <a href="<?= url('users/new') ?>" class="btn btn-primary">
                         <svg class="icon" viewBox="0 0 16 16" fill="currentColor">
                             <path d="M10 1H6V6L1 6V10H6V15H10V10H15V6L10 6V1Z" />
                         </svg>
@@ -202,14 +208,14 @@ $currentRoleInfo = $roleLabels[$currentUserRole] ?? ['label' => $currentUserRole
                                 </td>
                                 <td><?= $u['created_at'] ? date('d/m/Y', strtotime($u['created_at'])) : '-' ?></td>
                                 <td class="table-actions">
-                                    <a href="/users/edit/<?= $u['id'] ?>" class="btn btn-secondary btn-icon" title="Editar">
+                                    <a href="<?= url('users/edit/' . $u['id']) ?>" class="btn btn-secondary btn-icon" title="Editar">
                                         <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
                                             <path
                                                 d="M20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75 1.84-1.83zM3 17.25V21h3.75l11-10.99-3.75-3.75L3 17.25z" />
                                         </svg>
                                     </a>
                                     <?php if ($u['id'] != $_SESSION['user_id']): ?>
-                                        <a href="/users/delete/<?= $u['id'] ?>" class="btn btn-danger btn-icon" title="Eliminar"
+                                        <a href="<?= url('users/delete/' . $u['id']) ?>" class="btn btn-danger btn-icon" title="Eliminar"
                                             onclick="return confirm('¿Eliminar este usuario?')">
                                             <svg class="icon" viewBox="0 0 16 16" fill="currentColor">
                                                 <path
@@ -240,10 +246,11 @@ $currentRoleInfo = $roleLabels[$currentUserRole] ?? ['label' => $currentUserRole
 
             const logo = document.getElementById('siteLogo');
             if (logo) {
+                const newSrc = isDark ? logo.dataset.logoDark : logo.dataset.logoLight;
                 gsap.to(logo, {
                     opacity: 0, scale: 0.95, duration: 0.15,
                     onComplete: () => {
-                        logo.src = isDark ? '/assets/logo-dark.png' : '/assets/logo.png';
+                        logo.src = newSrc;
                         gsap.to(logo, { opacity: 1, scale: 1, duration: 0.15 });
                     }
                 });
@@ -291,7 +298,7 @@ $currentRoleInfo = $roleLabels[$currentUserRole] ?? ['label' => $currentUserRole
             const logo = document.getElementById('siteLogo');
 
             if (themeSwitch) themeSwitch.checked = theme === 'dark';
-            if (logo && theme === 'dark') logo.src = '/assets/logo-dark.png';
+            if (logo && theme === 'dark') logo.src = logo.dataset.logoDark;
 
             // GSAP Entrance Animations
             gsap.set('.header', { y: -20, opacity: 0 });

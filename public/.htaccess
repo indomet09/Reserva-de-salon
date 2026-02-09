@@ -1,26 +1,11 @@
-<IfModule mod_rewrite.c>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
+RewriteEngine On
 
-    RewriteEngine On
+# Si el archivo o directorio existe, usar ese
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 
-    # Forzar HTTPS (Descomentar en producción)
-    # RewriteCond %{HTTPS} off
-    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# Redirigir todo a index.php
+RewriteRule ^(.*)$ index.php [L,QSA]
 
-    # Redirigir Trailing Slashes
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)/$ /$1 [L,R=301]
-
-    # Enrutamiento Front Controller
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
-</IfModule>
-
-# Seguridad: Bloquear acceso a archivos sensibles si están expuestos
-<FilesMatch "\.(db|env|log|git|yml)$">
-    Order Deny,Allow
-    Deny from all
-</FilesMatch>
+# Prevenir directory listing
+Options -Indexes

@@ -39,12 +39,24 @@ Es mandatorio habilitar las siguientes extensiones en `php.ini`:
 ## 3. PROCESO DE INSTALACIÓN
 
 ### 3.1 Despliegue de Archivos
-1.  Transfiera el paquete de instalación al directorio raíz del servidor web (ej. `/var/www/html/reservas`).
+1.  Transfiera el paquete de instalación al directorio raíz del servidor web.
+    *   **Servidor Dedicado:** `/var/www/html/`
+    *   **XAMPP/LAMPP:** `htdocs/reservas` (Soporte nativo para subcarpetas)
 2.  Verifique la integridad de la estructura de directorios:
     *   `/config`
     *   `/public`
     *   `/src`
     *   `/database`
+
+### 3.1.1 Configuración Apache (XAMPP/LAMPP)
+El sistema utiliza URLs amigables, por lo que requiere `mod_rewrite`.
+1.  Edite `httpd.conf` y asegúrese de descomentar: `LoadModule rewrite_module modules/mod_rewrite.so`.
+2.  Asegúrese de que la configuración del directorio permita `AllowOverride All` para que el archivo `.htaccess` funcione.
+    ```apache
+    <Directory "/opt/lampp/htdocs">
+        AllowOverride All
+    </Directory>
+    ```
 
 ### 3.2 Configuración de Permisos (Linux)
 Por seguridad y funcionalidad, establezca los permisos estrictamente necesarios:

@@ -11,8 +11,7 @@ class AdminController
         // Require Admin Auth
         AuthController::requireAuth();
         if (!AuthController::isAdmin()) {
-            header('Location: /');
-            exit;
+            redirect('/');
         }
 
         // Connect to Users DB (where settings table lives)
@@ -37,8 +36,7 @@ class AdminController
     public function update()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: /admin/settings');
-            exit;
+            redirect('admin/settings');
         }
 
         if (!validateCsrfToken()) {
@@ -62,7 +60,7 @@ class AdminController
         $this->handleUpload('login_logo_dark_file', 'login_logo_dark');
         $this->handleUpload('favicon_file', 'app_favicon');
 
-        header('Location: /admin/settings?success=' . urlencode('Configuración actualizada correctamente'));
+        redirect('admin/settings?success=' . urlencode('Configuración actualizada correctamente'));
     }
 
     /**

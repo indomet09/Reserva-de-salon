@@ -951,6 +951,186 @@ textarea:focus-visible {
     border-top: 1px solid var(--gray-200);
 }
 
+/* Dark Mode for Auth Pages */
+[data-theme="dark"] .auth-page {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+}
+
+[data-theme="dark"] .auth-card {
+    background: var(--bg-secondary);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .auth-title {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .auth-subtitle {
+    color: var(--text-muted);
+}
+
+[data-theme="dark"] .auth-footer {
+    border-top-color: var(--border-color);
+}
+
+/* ============================================
+   Premium 3D Neumorphic Toggle Switch
+   Adapted for INDOMET Institutional Theme
+   ============================================ */
+.premium-toggle {
+    --tsz: 8px;
+    --tsz-m: calc(var(--tsz) / 10);
+    --toggle-transition: all 0.4s ease 0s;
+    --toggle-on: var(--primary-600);
+    --toggle-lg: #fff0;
+    --toggle-bg1: #ededed;
+    --toggle-bg2: #e3e3e3;
+    --toggle-bg3: #bdbdbd;
+
+    position: relative;
+    width: calc(var(--tsz) * 4);
+    height: calc(var(--tsz) * 2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.premium-toggle * {
+    box-sizing: border-box;
+    transition: var(--toggle-transition);
+}
+
+.premium-toggle input {
+    display: none;
+}
+
+.premium-toggle label {
+    position: absolute;
+    width: calc(var(--tsz) * 4);
+    height: calc(var(--tsz) * 2);
+    background: linear-gradient(0deg, var(--toggle-bg1), var(--toggle-bg3));
+    border-radius: var(--tsz);
+    box-shadow:
+        0 calc(var(--tsz) * 0.01) calc(var(--tsz) / 10) calc(var(--tsz) / 500) #ffffff80,
+        0 0px calc(var(--tsz) / 1) calc(var(--tsz) / 10) #ffffff,
+        0 calc(var(--tsz) * -0.05) calc(var(--tsz-m) * 0.5) calc(var(--tsz-m) * 0.25) #15182f44;
+    cursor: pointer;
+}
+
+.premium-toggle label span {
+    position: absolute;
+    width: calc(calc(var(--tsz) * 2) - calc(var(--tsz) / 8));
+    height: calc(calc(var(--tsz) * 2) - calc(var(--tsz) / 8));
+    top: calc(var(--tsz-m) + calc(var(--tsz) / -20));
+    left: calc(var(--tsz-m) + calc(var(--tsz) / -30));
+    background:
+        radial-gradient(circle at 55% 50%, #fff0 calc(var(--tsz) / 1.2), var(--toggle-lg) calc(var(--tsz) / 0.5)),
+        radial-gradient(circle at 60% 50%, #fff0 calc(var(--tsz) / 0.95), var(--toggle-lg) calc(var(--tsz) / 0.75)),
+        linear-gradient(180deg, var(--toggle-bg1), var(--toggle-bg3));
+    border-radius: var(--tsz);
+    box-shadow:
+        calc(var(--tsz) / -50) calc(var(--tsz) / 50) calc(var(--tsz) / 30) 0 #fff2 inset,
+        0 0 calc(var(--tsz) / 10) calc(var(--tsz) / 50) #6b6b6b,
+        0 calc(var(--tsz) / 10) calc(var(--tsz) / 5) 0 #0006;
+    cursor: pointer;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.premium-toggle input:checked+label span {
+    --toggle-lg: var(--toggle-on);
+    left: calc(calc(100% - calc(calc(var(--tsz) * 2) - calc(var(--tsz) / 3))) - calc(calc(var(--tsz) / 10) + calc(var(--tsz) / 5.75)));
+}
+
+.premium-toggle label span:before {
+    content: "";
+    position: absolute;
+    width: calc(var(--tsz) / 0.5);
+    height: calc(var(--tsz) / 0.5);
+    left: calc(var(--tsz-m) * -0.5);
+    top: calc(var(--tsz-m) * -0.5);
+    background: radial-gradient(circle at 47.5% 45%, #fff0 calc(var(--tsz-m) * 9), #0003 calc(var(--tsz-m) * 10));
+    filter: blur(1px);
+}
+
+.premium-toggle .rail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 0;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-shadow:
+        calc(var(--tsz) * -0.01) calc(var(--tsz) * 0.052) calc(var(--tsz) / 25) calc(var(--tsz) * -0.01) #fff,
+        calc(var(--tsz) * 0.01) calc(var(--tsz) * 0.025) calc(var(--tsz) / 25) calc(var(--tsz) * -0.025) #0004 inset;
+    border-radius: var(--tsz);
+}
+
+.premium-toggle .rail:before,
+.premium-toggle .rail:after {
+    content: "";
+    position: absolute;
+    width: var(--tsz);
+    height: var(--tsz);
+    transition: var(--toggle-transition);
+    border-radius: var(--tsz);
+}
+
+.premium-toggle .rail:before {
+    left: calc(var(--tsz) * 0.5);
+    box-shadow:
+        calc(var(--tsz) * -0.01) calc(var(--tsz) * 0.052) calc(var(--tsz) / 25) calc(var(--tsz) * -0.01) #fff8,
+        calc(var(--tsz) * 0.01) calc(var(--tsz) * 0.025) calc(var(--tsz) / 25) calc(var(--tsz) * -0.025) #0008 inset;
+    background: linear-gradient(175deg, #00000077, #0001, #fff2), var(--toggle-on);
+}
+
+.premium-toggle .rail:after {
+    right: calc(var(--tsz) * 0.5);
+    box-shadow:
+        0 calc(var(--tsz) * 0.05) calc(var(--tsz) / 25) calc(var(--tsz) / -150) #fff8,
+        calc(var(--tsz) * -0.0125) calc(var(--tsz) * 0.0125) calc(var(--tsz) / 25) calc(var(--tsz) * -0.025) #000 inset;
+    background: linear-gradient(180deg, #858585, #a8a8a8, var(--toggle-bg2));
+}
+
+.premium-toggle .rail span {
+    width: calc(var(--tsz) + 2px);
+    height: calc(var(--tsz-m) * 1);
+    z-index: 1;
+    background:
+        linear-gradient(180deg, #0004, #fff0 calc(var(--tsz-m) * 0.35)),
+        linear-gradient(90deg, var(--toggle-on) 50%, #aaaaaa 50%);
+    background-size: 200% 100%;
+    background-position: 55% 50%;
+    box-shadow: calc(var(--tsz) * 0.00) calc(var(--tsz) * 0.025) calc(var(--tsz-m) * 0.15) calc(var(--tsz) * -0.01) #fff8;
+}
+
+.premium-toggle input:checked~.rail span {
+    background-position: 35% 50%;
+}
+
+/* Dark mode adjustments for premium toggle */
+[data-theme="dark"] .premium-toggle {
+    --toggle-bg1: #2a3441;
+    --toggle-bg2: #1e2836;
+    --toggle-bg3: #151c26;
+}
+
+[data-theme="dark"] .premium-toggle label {
+    box-shadow:
+        0 calc(var(--tsz) * 0.01) calc(var(--tsz) / 10) calc(var(--tsz) / 500) #ffffff20,
+        0 0px calc(var(--tsz) / 1) calc(var(--tsz) / 10) #00000080,
+        0 calc(var(--tsz) * -0.05) calc(var(--tsz-m) * 0.5) calc(var(--tsz-m) * 0.25) #00000066;
+}
+
+[data-theme="dark"] .premium-toggle label span {
+    box-shadow:
+        calc(var(--tsz) / -50) calc(var(--tsz) / 50) calc(var(--tsz) / 30) 0 #fff1 inset,
+        0 0 calc(var(--tsz) / 10) calc(var(--tsz) / 50) #000,
+        0 calc(var(--tsz) / 10) calc(var(--tsz) / 5) 0 #0008;
+}
+
 /* ============================================
    Dashboard/Reservations Page
    ============================================ */

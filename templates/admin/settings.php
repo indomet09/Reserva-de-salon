@@ -16,7 +16,14 @@ function val($key, $settings)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configuración - Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="<?= asset('css/app.css') ?>">
+    <script>
+        // Apply saved theme immediately to prevent flash
+        (function () {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
 </head>
 
 <body>
@@ -24,12 +31,38 @@ function val($key, $settings)
         <div class="container">
             <div class="header-content">
                 <div class="header-title">
-                    <img src="<?= app_setting('app_logo', '/assets/logo.svg') ?>" class="header-logo"
-                        style="height: 32px; width: auto;">
-                    Admin Settings
+                    <a href="<?= url('reservations') ?>" title="Ir al calendario">
+                        <img src="<?= asset(app_setting('app_logo', '/assets/logo.svg')) ?>" class="header-logo"
+                            id="siteLogo" style="height: 32px; width: auto;"
+                            data-logo-light="<?= asset(app_setting('app_logo', '/assets/logo.svg')) ?>"
+                            data-logo-dark="<?= asset(app_setting('app_logo_dark') ?: app_setting('app_logo', '/assets/logo.svg')) ?>">
+                    </a>
                 </div>
                 <nav class="header-nav">
-                    <a href="/reservations" class="btn btn-secondary btn-sm">← Volver al Dashboard</a>
+                    <!-- Theme Switch -->
+                    <div class="theme-switch">
+                        <label class="switch" title="Cambiar a modo oscuro">
+                            <input type="checkbox" id="themeSwitch" onchange="toggleTheme()">
+                            <span class="switch-slider"></span>
+                            <span class="switch-icons">
+                                <svg class="icon icon-off" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="5" />
+                                    <line x1="12" y1="1" x2="12" y2="3" />
+                                    <line x1="12" y1="21" x2="12" y2="23" />
+                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                                    <line x1="1" y1="12" x2="3" y2="12" />
+                                    <line x1="21" y1="12" x2="23" y2="12" />
+                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                                </svg>
+                                <svg class="icon icon-on" viewBox="0 0 24 24">
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                                </svg>
+                            </span>
+                        </label>
+                    </div>
+                    <a href="<?= url('reservations') ?>" class="btn btn-secondary btn-sm">← Volver al Dashboard</a>
                 </nav>
             </div>
         </div>
@@ -48,7 +81,7 @@ function val($key, $settings)
                 <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
             <?php endif; ?>
 
-            <form action="/admin/settings" method="POST" enctype="multipart/form-data">
+            <form action="<?= url('admin/settings') ?>" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="csrf_token" value="<?= generateCsrfToken() ?>">
 
                 <!-- Identidad -->
@@ -80,7 +113,7 @@ function val($key, $settings)
                         <label>Logo de Cabecera (Light)</label>
                         <div
                             style="margin-bottom: 10px; padding: 10px; border: 1px dashed var(--border); text-align: center;">
-                            <img src="<?= val('app_logo', $settings) ?>" style="max-height: 50px;">
+                            <img src="<?= asset(val('app_logo', $settings)) ?>" style="max-height: 50px;">
                         </div>
                         <input type="file" name="logo_file" accept=".svg,.png,.jpg,.jpeg">
                     </div>
@@ -90,7 +123,7 @@ function val($key, $settings)
                         <label>Logo de Cabecera (Dark)</label>
                         <div
                             style="margin-bottom: 10px; padding: 10px; border: 1px dashed var(--border); text-align: center; background: #333;">
-                            <img src="<?= val('app_logo_dark', $settings) ?>" style="max-height: 50px;">
+                            <img src="<?= asset(val('app_logo_dark', $settings)) ?>" style="max-height: 50px;">
                         </div>
                         <input type="file" name="logo_dark_file" accept=".svg,.png,.jpg,.jpeg">
                     </div>
@@ -102,7 +135,7 @@ function val($key, $settings)
                         <label>Icono de Login (Light)</label>
                         <div
                             style="margin-bottom: 10px; padding: 10px; border: 1px dashed var(--border); text-align: center;">
-                            <img src="<?= val('login_logo', $settings) ?>" style="max-height: 50px;">
+                            <img src="<?= asset(val('login_logo', $settings)) ?>" style="max-height: 50px;">
                         </div>
                         <input type="file" name="login_logo_file" accept=".svg,.png,.jpg,.jpeg">
                     </div>
@@ -112,7 +145,7 @@ function val($key, $settings)
                         <label>Icono de Login (Dark)</label>
                         <div
                             style="margin-bottom: 10px; padding: 10px; border: 1px dashed var(--border); text-align: center; background: #333;">
-                            <img src="<?= val('login_logo_dark', $settings) ?>" style="max-height: 50px;">
+                            <img src="<?= asset(val('login_logo_dark', $settings)) ?>" style="max-height: 50px;">
                         </div>
                         <input type="file" name="login_logo_dark_file" accept=".svg,.png,.jpg,.jpeg">
                     </div>
@@ -132,6 +165,38 @@ function val($key, $settings)
             </form>
         </div>
     </main>
+
+    <script>
+        function toggleTheme() {
+            const themeSwitch = document.getElementById('themeSwitch');
+            const isDark = themeSwitch.checked;
+            const newTheme = isDark ? 'dark' : 'light';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+
+            // Update Logo
+            const logo = document.getElementById('siteLogo');
+            if (logo) {
+                logo.src = isDark ? logo.dataset.logoDark : logo.dataset.logoLight;
+            }
+        }
+
+        // Init Theme
+        (function () {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const themeSwitch = document.getElementById('themeSwitch');
+            if (themeSwitch) {
+                themeSwitch.checked = savedTheme === 'dark';
+            }
+
+            // Set initial logo
+            const logo = document.getElementById('siteLogo');
+            if (logo && savedTheme === 'dark') {
+                logo.src = logo.dataset.logoDark;
+            }
+        })();
+    </script>
 </body>
 
 </html>

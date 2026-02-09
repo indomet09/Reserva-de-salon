@@ -18,6 +18,20 @@ define('DB_USERS_PATH', __DIR__ . '/../database/usuarios.db');
 define('DB_RESERVAS_PATH', __DIR__ . '/../database/reservas.db');
 
 // ============================================
+// Detectar BASE_URL automáticamente (para XAMPP/LAMPP en subcarpetas)
+// ============================================
+if (!defined('BASE_URL')) {
+    $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+    $basePath = dirname($scriptName);
+    // Si estamos en una subcarpeta, usar esa ruta
+    if ($basePath !== '/' && $basePath !== '\\') {
+        define('BASE_URL', $basePath);
+    } else {
+        define('BASE_URL', '');
+    }
+}
+
+// ============================================
 // Cargar configuración personalizada si existe
 // ============================================
 $appConfigFile = __DIR__ . '/app.php';
@@ -53,6 +67,56 @@ if (!defined('ROLE_MANAGER')) {
 
 if (!defined('ROLE_USER')) {
     define('ROLE_USER', 'user');
+}
+
+/**
+ * Genera una URL con el BASE_URL correcto para subcarpetas
+ * 
+ * @param string $path Ruta relativa (ej: '/reservations')
+ * @return string URL completa con prefijo
+ */
+function url(string $path = ''): string
+{
+    $base = defined('BASE_URL') ? BASE_URL : '';
+    // Asegurar que el path comience con /
+    if ($path && $path[0] !== '/') {
+        $path = '/' . $path;
+    }
+    return $base . $path;
+}
+
+/**
+ * Redirige a una URL usando el BASE_URL
+ * 
+ * @param string $path Ruta relativa (ej: '/reservations')
+ */
+function redirect(string $path): void
+{
+    header('Location: ' . url($path));
+    exit;
+}
+
+/**
+ * Genera una URL para assets (CSS, JS, imágenes) con el BASE_URL correcto
+ * 
+ * @param string $path Ruta del asset (ej: '/css/app.css' o 'css/app.css')
+ * @return string URL completa del asset
+ */
+function asset(string $path): string
+{
+    // Si la ruta comienza con http o //, es absoluta, devolverla tal cual
+    if (preg_match('/^(https?:)?\/\//', $path)) {
+        return $path;
+    }
+
+    $base = defined('BASE_URL') ? BASE_URL : '';
+
+    // Asegurar que el path comience con /
+    if ($path && $path[0] !== '/') {
+        $path = '/' . $path;
+    }
+
+    return $base . $path;
 }
 
 /**

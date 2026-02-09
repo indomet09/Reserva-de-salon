@@ -102,8 +102,8 @@ $monthNames = [
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/app.css">
-    <link rel="icon" href="<?= app_setting('app_favicon', '/assets/logo.svg') ?>">
+    <link rel="stylesheet" href="<?= asset('css/app.css') ?>">
+    <link rel="icon" href="<?= asset(app_setting('app_favicon', '/assets/logo.svg')) ?>">
     <!-- GSAP Animation Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <style>
@@ -126,7 +126,11 @@ $monthNames = [
         <div class="container">
             <div class="header-content">
                 <div class="header-title">
-                    <img src="<?= app_setting('app_logo', '/assets/logo.svg') ?>" alt="Sistema" class="header-logo" id="siteLogo">
+                    <a href="<?= url('reservations') ?>" title="Ir al calendario">
+                        <img src="<?= asset(app_setting('app_logo', '/assets/logo.svg')) ?>" alt="Sistema" class="header-logo" id="siteLogo"
+                            data-logo-light="<?= asset(app_setting('app_logo', '/assets/logo.svg')) ?>"
+                            data-logo-dark="<?= asset(app_setting('app_logo_dark') ?: app_setting('app_logo', '/assets/logo.svg')) ?>">
+                    </a>
                 </div>
                 <nav class="header-nav">
                     <!-- Theme Switch -->
@@ -153,8 +157,8 @@ $monthNames = [
                         </label>
                     </div>
                     <?php if (AuthController::isAdmin()): ?>
-                        <a href="/admin/settings" class="btn btn-secondary btn-sm" style="margin-right: 0.5rem;"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> Configuración</a>
-                        <a href="/users" class="btn btn-secondary btn-sm"><svg class="icon" viewBox="0 0 24 24">
+                        <a href="<?= url('admin/settings') ?>" class="btn btn-secondary btn-sm" style="margin-right: 0.5rem;"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> Configuración</a>
+                        <a href="<?= url('users') ?>" class="btn btn-secondary btn-sm"><svg class="icon" viewBox="0 0 24 24">
                                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
                                 <circle cx="9" cy="7" r="4" />
                                 <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
@@ -176,7 +180,7 @@ $monthNames = [
                                 </div>
                             </div>
                             <div class="dropdown-actions">
-                                <a href="/logout" class="dropdown-btn logout">
+                                <a href="<?= url('logout') ?>" class="dropdown-btn logout">
                                     <svg class="icon" viewBox="0 0 24 24">
                                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                                         <polyline points="16 17 21 12 16 7" />
@@ -274,12 +278,12 @@ $monthNames = [
                         </a>
                     </div>
                     <?php endif; ?>
-                    <a href="/reservations/new" class="btn btn-primary"><svg class="icon" viewBox="0 0 24 24">
+                    <a href="<?= url('reservations/new') ?>" class="btn btn-primary"><svg class="icon" viewBox="0 0 24 24">
                             <line x1="12" y1="5" x2="12" y2="19" />
                             <line x1="5" y1="12" x2="19" y2="12" />
                         </svg> Nueva Reserva</a>
                     <?php if (AuthController::canExport()): ?>
-                        <a href="/reservations/export" class="btn btn-secondary"><svg class="icon" viewBox="0 0 24 24">
+                        <a href="<?= url('reservations/export') ?>" class="btn btn-secondary"><svg class="icon" viewBox="0 0 24 24">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                                 <polyline points="7 10 12 15 17 10" />
                                 <line x1="12" y1="15" x2="12" y2="3" />
@@ -300,7 +304,7 @@ $monthNames = [
                         <div class="empty-icon"><svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="width:48px;height:48px;"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg></div>
                         <h3>No hay reservas</h3>
                         <p>Comienza creando tu primera reserva</p>
-                        <a href="/reservations/new" class="btn btn-primary"><svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M10 1H6V6L1 6V10H6V15H10V10H15V6L10 6V1Z"/></svg> Nueva Reserva</a>
+                        <a href="<?= url('reservations/new') ?>" class="btn btn-primary"><svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M10 1H6V6L1 6V10H6V15H10V10H15V6L10 6V1Z"/></svg> Nueva Reserva</a>
                     </div>
                 <?php else: ?>
                     <div class="table-container">
@@ -344,11 +348,11 @@ $monthNames = [
                                         <td class="text-small text-muted"><?= $createdAt ?></td>
                                         <td class="table-actions">
                                             <?php if ($canModify): ?>
-                                                <a href="/reservations/edit/<?= $r['id'] ?>" class="btn btn-secondary btn-icon"
+                                                <a href="<?= url('reservations/edit/' . $r['id']) ?>" class="btn btn-secondary btn-icon"
                                                     title="Editar"><svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75 1.84-1.83zM3 17.25V21h3.75l11-10.99-3.75-3.75L3 17.25z"/></svg></a>
                                             <?php endif; ?>
                                             <?php if ($canDelete): ?>
-                                                <a href="/reservations/delete/<?= $r['id'] ?>" class="btn btn-danger btn-icon"
+                                                <a href="<?= url('reservations/delete/' . $r['id']) ?>" class="btn btn-danger btn-icon"
                                                     title="Eliminar" onclick="return confirm('¿Eliminar esta reserva?')"><svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg></a>
                                             <?php endif; ?>
                                         </td>
@@ -415,12 +419,12 @@ $monthNames = [
         </div>
     </div>
 
-    <script src="/js/app.js"></script>
+    <script src="<?= asset('js/app.js') ?>"></script>
     <script>
         // Brand Configuration (Injected from PHP)
         const brandConfig = {
-            logoLight: "<?= app_setting('app_logo', '/assets/logo.svg') ?>",
-            logoDark: "<?= app_setting('app_logo_dark') ?: app_setting('app_logo', '/assets/logo.svg') ?>"
+            logoLight: "<?= asset(app_setting('app_logo', '/assets/logo.svg')) ?>",
+            logoDark: "<?= asset(app_setting('app_logo_dark') ?: app_setting('app_logo', '/assets/logo.svg')) ?>"
         };
 
         // Store current user role for JS
@@ -459,7 +463,7 @@ $monthNames = [
 
             if (canModify) {
                 const editBtn = document.createElement('a');
-                editBtn.href = '/reservations/edit/' + r.id;
+                editBtn.href = '<?= url('reservations/edit/') ?>' + r.id;
                 editBtn.className = 'btn btn-primary';
                 editBtn.innerHTML = '✏️ Editar';
                 actionsDiv.appendChild(editBtn);

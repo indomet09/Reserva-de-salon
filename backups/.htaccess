@@ -1,2 +1,3 @@
-Order Deny,Allow
+# Denegar acceso a todo en esta carpeta (backups)
+Order deny,allow
 Deny from all

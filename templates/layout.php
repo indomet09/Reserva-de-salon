@@ -21,7 +21,7 @@ $pageTitle = $pageTitle ?? APP_NAME;
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- App Styles -->
-    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="<?= asset('css/app.css') ?>">
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml"
@@ -48,7 +48,7 @@ $pageTitle = $pageTitle ?? APP_NAME;
                                 <span class="badge badge-warning" style="margin-left: 0.5rem;">Admin</span>
                             <?php endif; ?>
                         </span>
-                        <a href="/logout" class="btn btn-secondary btn-sm">
+                        <a href="<?= url('logout') ?>" class="btn btn-secondary btn-sm">
                             🔒 Cerrar sesión
                         </a>
                     </nav>
@@ -61,7 +61,7 @@ $pageTitle = $pageTitle ?? APP_NAME;
         <?= $content ?? '' ?>
     </main>
 
-    <script src="/js/app.js"></script>
+    <script src="<?= asset('js/app.js') ?>"></script>
 </body>
 
 </html>

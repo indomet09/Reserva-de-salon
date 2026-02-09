@@ -41,8 +41,20 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+
 // Extraer la ruta limpia de la URL
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+// Detectar el base path automáticamente (para XAMPP/LAMPP en subcarpetas)
+$scriptName = $_SERVER['SCRIPT_NAME'];
+$basePath = dirname($scriptName);
+if ($basePath !== '/' && $basePath !== '\\') {
+    // Quitar el base path de la URI
+    if (strpos($requestUri, $basePath) === 0) {
+        $requestUri = substr($requestUri, strlen($basePath));
+    }
+}
+
 $route = trim($requestUri, '/') ?: 'home';
 
 // ============================================

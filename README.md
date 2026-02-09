@@ -41,6 +41,7 @@ El núcleo del sistema está construido sobre tecnologías robustas y modernas:
 
 ### 🚀 Instalación Rápida
 
+#### Opción A: Servidor Interno (Dev)
 ```bash
 # 1. Clonar repositorio
 git clone https://github.com/indomet/reservas-salon.git
@@ -48,9 +49,15 @@ git clone https://github.com/indomet/reservas-salon.git
 # 2. Configurar permisos
 chmod 775 database public/uploads
 
-# 3. Iniciar servidor (Dev)
+# 3. Iniciar servidor
 php -S localhost:8000 -t public
 ```
+
+#### Opción B: XAMPP / LAMPP (Producción/Staging)
+1.  Copie la carpeta del proyecto a `C:\xampp\htdocs\reservas` (Windows) o `/opt/lampp/htdocs/reservas` (Linux).
+2.  Asegúrese de que el módulo `mod_rewrite` esté habilitado en Apache.
+3.  Acceda a `http://localhost/reservas/`.
+    *   El sistema detectará automáticamente si está corriendo en una subcarpeta y ajustará todas las rutas.
 
 Para una guía detallada, consulte el [Manual de Instalación](docs/MANUAL_INSTALACION.md).
 
