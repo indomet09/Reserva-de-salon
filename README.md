@@ -37,8 +37,6 @@ El núcleo del sistema está construido sobre tecnologías robustas y modernas:
 *   **🌓 Modo Adaptable:** Soporte nativo para Modo Claro y Oscuro con branding dinámico.
 *   **🛡️ Seguridad Robusta:** Sistema de roles jerárquicos (Admin, Manager, Usuario) y contraseñas encriptadas.
 *   **📊 Reportes:** Exportación de datos compatible con Excel y métricas en tiempo real.
-*   **📱 Diseño Responsivo:** Acceso total desde dispositivos móviles, tablets y escritorio.
-
 ---
 
 ### 🚀 Instalación Rápida
@@ -73,6 +71,6 @@ Para una guía detallada, consulte el [Manual de Instalación](docs/MANUAL_INSTA
 ---
 
 <div align="center">
-  <p>Desarrollado con ❤️ por el Departamento de Tecnología de la Información</p>
+  <p>Desarrollado por el Departamento de Tecnología de la Información</p>
   <p><b>INDOMET - 2026</b></p>
 </div>
