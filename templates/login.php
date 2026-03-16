@@ -18,7 +18,7 @@ $success = $_GET['success'] ?? null;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= asset('css/app.css') ?>">
-    <link rel="icon" href="<?= asset(app_setting('app_favicon', '/assets/logo.svg')) ?>">
+    <link rel="icon" href="<?= asset(app_setting('app_favicon', '/assets/calendar_icon.svg')) ?>">
     <style>
         :root {
             --primary:

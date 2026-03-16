@@ -6,7 +6,7 @@
 
 // Si ya está instalado, redirigir
 if (file_exists(__DIR__ . '/../config/.installed')) {
-    header('Location: /');
+    header('Location: reservations');
     exit;
 }
 
@@ -455,7 +455,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <p style="color: var(--text-muted); margin-bottom: 2rem;">El sistema ha sido configurado correctamente.
                     </p>
 
-                    <a href="/" class="btn">Ir al Dashboard &rarr;</a>
+                    <a href="reservations" class="btn">Ir a Reservas &rarr;</a>
                     <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">
                         Se ha iniciado sesión automáticamente.
                     </p>

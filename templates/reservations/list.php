@@ -467,6 +467,17 @@ $monthNames = [
                 editBtn.className = 'btn btn-primary';
                 editBtn.innerHTML = '✏️ Editar';
                 actionsDiv.appendChild(editBtn);
+
+                const deleteBtn = document.createElement('a');
+                deleteBtn.href = '<?= url('reservations/delete/') ?>' + r.id;
+                deleteBtn.className = 'btn btn-danger';
+                deleteBtn.innerHTML = '🗑️ Eliminar';
+                deleteBtn.onclick = function(e) {
+                    if (!confirm('¿Estás seguro de que deseas eliminar esta reserva?')) {
+                        e.preventDefault();
+                    }
+                };
+                actionsDiv.appendChild(deleteBtn);
             }
 
             document.getElementById('reservationModal').classList.add('active');

@@ -68,6 +68,7 @@ chown -R www-data:www-data /var/www/html/reservas
 # Permisos de escritura solo en directorios de datos
 chmod -R 775 /var/www/html/reservas/database
 chmod -R 775 /var/www/html/reservas/public/uploads
+chmod -R 775 /var/www/html/reservas/config  # Para el instalador
 ```
 
 ### 3.3 Inicialización
